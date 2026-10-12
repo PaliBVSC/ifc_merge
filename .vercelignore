@@ -1,0 +1,10 @@
+# Only the static browser app in web/ is deployed; keep the local Python server out
+# so Vercel does not try to build it as a Python function.
+app/
+static/
+tests/
+samples/
+data/
+run.py
+requirements*.txt
+web/cli.mjs

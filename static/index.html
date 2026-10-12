@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>IFC Merge</title>
+  <link rel="stylesheet" href="style.css">
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+      }
+    }
+  </script>
+</head>
+<body>
+  <aside id="sidebar">
+    <header class="brand">
+      <h1>IFC Merge</h1>
+      <span class="muted">Combine large IFC models into one file</span>
+    </header>
+
+    <section>
+      <label id="drop" class="drop" tabindex="0">
+        <input id="picker" type="file" accept=".ifc,.ifczip" multiple hidden>
+        <strong>Drop .ifc / .ifczip files here</strong>
+        <span class="muted">or click to browse</span>
+      </label>
+      <form id="path-form" class="path-form">
+        <input id="path-input" type="text" placeholder="…or a path on the server, e.g. D:\models\arch.ifc"
+               autocomplete="off" spellcheck="false">
+        <button type="submit">Add</button>
+      </form>
+      <p class="hint">Server paths are read in place, so a multi-GB file is never copied or uploaded.</p>
+    </section>
+
+    <section>
+      <div class="section-head">
+        <h2>Models</h2>
+        <span id="file-count" class="muted"></span>
+      </div>
+      <p class="hint">The first selected model is the <b>primary</b>: its project, units and contexts are kept.</p>
+      <ul id="files" class="files"></ul>
+    </section>
+
+    <section id="merge-section">
+      <h2>Merge</h2>
+      <label class="field">Output file name
+        <input id="out-name" type="text" value="merged.ifc" spellcheck="false">
+      </label>
+      <div class="options">
+        <label><input type="checkbox" id="opt-unify" checked> Fold identical representation contexts</label>
+        <label><input type="checkbox" id="opt-dedupe" checked> Regenerate duplicate GlobalIds</label>
+        <label><input type="checkbox" id="opt-compress"> Compress result as .ifczip</label>
+        <label><input type="checkbox" id="opt-units"> Allow unit mismatch (not recommended)</label>
+      </div>
+      <ul id="checks" class="checks"></ul>
+      <button id="merge-btn" class="primary" disabled>Merge</button>
+      <div id="job" class="job" hidden></div>
+    </section>
+  </aside>
+
+  <main id="viewer">
+    <div id="canvas-host"></div>
+    <div class="toolbar">
+      <button data-view="fit" title="Fit all">Fit</button>
+      <button data-view="top" title="Top view">Top</button>
+      <button data-view="iso" title="3D view">3D</button>
+      <span class="sep"></span>
+      <label><input type="checkbox" id="t-points" checked> Elements</label>
+      <label><input type="checkbox" id="t-boxes" checked> Boxes</label>
+      <label><input type="checkbox" id="t-full"> Outliers</label>
+      <label><input type="checkbox" id="t-labels" checked> Labels</label>
+      <label><input type="checkbox" id="t-union" checked> Merged extent</label>
+    </div>
+    <div id="legend" class="legend"></div>
+    <div id="origin" class="origin muted"></div>
+    <div id="empty" class="empty">
+      <p>Add IFC files to see where each model sits and how big it is.</p>
+      <p class="muted">Each model is shown as a bounding box plus a sample of element positions.
+        No geometry is loaded, so this stays fast for files of any size.</p>
+    </div>
+  </main>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>

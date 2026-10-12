@@ -1,0 +1,4 @@
+-r requirements.txt
+pytest
+ifcopenshell  # tests only: builds sample models and validates merged output
+numpy

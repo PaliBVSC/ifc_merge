@@ -1,0 +1,6 @@
+{
+  "name": "ifc-merge-web",
+  "private": true,
+  "type": "module",
+  "description": "Browser-only IFC merge app (static site)."
+}
